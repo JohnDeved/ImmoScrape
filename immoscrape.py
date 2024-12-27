@@ -1,10 +1,7 @@
 import re
 from camoufox.sync_api import Camoufox
-import sys
 
-headless_mode = "virtual" if sys.platform == "linux" else True
-
-with Camoufox(headless=headless_mode, humanize=True) as browser:
+with Camoufox(headless=True, humanize=True) as browser:
     page = browser.new_page()
     page.goto("https://www.immobilienscout24.de")
     print('Opened immobilienscout24.de')
