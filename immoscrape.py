@@ -26,7 +26,6 @@ with Camoufox(headless=headless_mode, humanize=True) as browser:
     print('Waited for search results')
     
     print(page.title())
-    
     page.screenshot(path='immobilienscout24.png')
     
     def page_fetch(url: str):
@@ -35,7 +34,7 @@ with Camoufox(headless=headless_mode, humanize=True) as browser:
                 headers: {{
                     'Accept': 'application/json'
                 }}
-            }}).then(response => response.text())
+            }}).then(response => response.json())
         """)
     
     result = page_fetch("https://www.immobilienscout24.de/Suche/radius/wohnung-mit-einbaukueche-mieten?centerofsearchaddress=Anhalt-Bitterfeld%20(Kreis);;;;;K%C3%B6then%20(Anhalt);&numberofrooms=2.0-&price=-700.0&pricetype=calculatedtotalrent&geocoordinates=51.75572;11.97482;30.0&sorting=7")
