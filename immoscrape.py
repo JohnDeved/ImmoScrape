@@ -27,6 +27,9 @@ with Camoufox(headless=headless_mode, humanize=True) as browser:
     
     print(page.title())
     
+    page.screenshot(path='immobilienscout24.png')
+    page.video.save_as('immobilienscout24.mp4')
+    
     def page_fetch(url: str):
         return page.evaluate(f"""
             fetch('{url}', {{

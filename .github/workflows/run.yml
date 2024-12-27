@@ -22,3 +22,11 @@ jobs:
     
     - name: Run scraper
       run: python immoscrape.py
+      
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: scraping-results
+        path: |
+          immobilienscout24.png
+          immobilienscout24.mp4
