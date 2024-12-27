@@ -2,7 +2,7 @@ import re
 from camoufox.sync_api import Camoufox
 import sys
 
-headless_mode = "virtual" if sys.platform == "linux" else False
+headless_mode = "virtual" if sys.platform == "linux" else True
 
 with Camoufox(headless=headless_mode, humanize=True) as browser:
     page = browser.new_page()

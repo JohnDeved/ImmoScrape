@@ -2,19 +2,10 @@ name: run
 
 on:
   workflow_dispatch:
-    inputs:
-      os:
-        description: 'Operating System (ubuntu/windows)'
-        required: true
-        default: 'ubuntu'
-        type: choice
-        options:
-          - ubuntu
-          - windows
 
 jobs:
   scrape:
-    runs-on: ${{ inputs.os }}-latest
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -34,8 +25,24 @@ jobs:
     - name: Cache Camoufox
       uses: actions/cache@v3
       with:
-        path: ${{ inputs.os == 'windows' && 'C:\Users\runneradmin\AppData\Local\camoufox\cache' || '/home/runner/.cache/camoufox' }}
-        key: camoufox-${{ runner.os }}
+        path: /home/runner/.cache
+        key:  runner-cache-${{ runner.os }}
+    
+    - name: Install WARP
+      run: |
+        curl https://pkg.cloudflareclient.com/pubkey.gpg | sudo apt-key add -
+        echo "deb http://pkg.cloudflareclient.com/ focal main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+        sudo apt update
+        sudo apt install cloudflare-warp
+        warp-cli registration new
+        warp-cli connect
+        sleep 5
+        WARP_STATUS=$(curl https://www.cloudflare.com/cdn-cgi/trace/ | grep "warp" | cut -d= -f2)
+        if [ "$WARP_STATUS" != "on" ]; then
+          echo "WARP is not enabled"
+          exit 1
+        fi
+        echo "WARP is enabled and working"
     
     - name: Run scraper
       run: python immoscrape.py
