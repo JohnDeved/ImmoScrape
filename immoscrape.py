@@ -25,8 +25,6 @@ with Camoufox(headless=headless_mode, humanize=True) as browser:
     page.wait_for_url(re.compile(r'https://www\.immobilienscout24\.de/Suche/.*'))
     print('Waited for search results')
     
-    
-    
     def page_fetch(url: str):
         return page.evaluate(f"""
             fetch('{url}', {{
