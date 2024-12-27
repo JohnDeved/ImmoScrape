@@ -28,21 +28,8 @@ jobs:
         path: /home/runner/.cache
         key:  runner-cache-${{ runner.os }}
     
-    - name: Install WARP
-      run: |
-        curl https://pkg.cloudflareclient.com/pubkey.gpg | sudo apt-key add -
-        echo "deb http://pkg.cloudflareclient.com/ focal main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
-        sudo apt update
-        sudo apt install cloudflare-warp
-        warp-cli registration new
-        warp-cli connect
-        sleep 5
-        WARP_STATUS=$(curl https://www.cloudflare.com/cdn-cgi/trace/ | grep "warp" | cut -d= -f2)
-        if [ "$WARP_STATUS" != "on" ]; then
-          echo "WARP is not enabled"
-          exit 1
-        fi
-        echo "WARP is enabled and working"
+    - name: Set up WARP
+      uses: fscarmen/warp-on-actions@v1.3
     
     - name: Run scraper
       run: python immoscrape.py
