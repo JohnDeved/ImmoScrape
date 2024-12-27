@@ -4,6 +4,9 @@ with Camoufox(headless=True) as browser:
     page = browser.new_page()
     page.goto("https://www.immobilienscout24.de")
     
+    page.get_by_role('button', name='Alle Akzeptieren').click()
+    print('Accepted cookies')
+    
     def page_fetch(url: str):
         return page.evaluate(f"""
             fetch('{url}', {{
