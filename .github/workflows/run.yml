@@ -2,10 +2,19 @@ name: run
 
 on:
   workflow_dispatch:
+    inputs:
+      os:
+        description: 'Operating System (ubuntu/windows)'
+        required: true
+        default: 'ubuntu'
+        type: choice
+        options:
+          - ubuntu
+          - windows
 
 jobs:
   scrape:
-    runs-on: windows-latest
+    runs-on: ${{ inputs.os }}-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -25,7 +34,7 @@ jobs:
     - name: Cache Camoufox
       uses: actions/cache@v3
       with:
-        path: C:\Users\runneradmin\AppData\Local\camoufox\cache
+        path: ${{ inputs.os == 'windows' && 'C:\Users\runneradmin\AppData\Local\camoufox\cache' || '/home/runner/.cache/camoufox' }}
         key: camoufox-${{ runner.os }}
     
     - name: Run scraper
