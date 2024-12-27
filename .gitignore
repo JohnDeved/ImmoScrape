@@ -1,9 +1,0 @@
-# Node modules
-node_modules/
-
-# Deno lock file
-deno.lock
-
-# Other unnecessary files
-.DS_Store
-Thumbs.db
