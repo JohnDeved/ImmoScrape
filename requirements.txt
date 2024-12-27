@@ -1,1 +1,1 @@
-camoufox
+camoufox==0.4.9
