@@ -5,7 +5,7 @@ on:
 
 jobs:
   scrape:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -25,7 +25,7 @@ jobs:
     - name: Cache Camoufox
       uses: actions/cache@v3
       with:
-        path: /home/runner/.cache/camoufox
+        path: C:\Users\runneradmin\AppData\Local\camoufox\cache
         key: camoufox-${{ runner.os }}
     
     - name: Run scraper
