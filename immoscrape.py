@@ -1,11 +1,31 @@
+import re
 from camoufox.sync_api import Camoufox
+import sys
 
-with Camoufox(headless=True) as browser:
+headless_mode = "virtual" if sys.platform == "linux" else False
+
+with Camoufox(headless=headless_mode, humanize=True) as browser:
     page = browser.new_page()
     page.goto("https://www.immobilienscout24.de")
+    print('Opened immobilienscout24.de')
     
     page.get_by_role('button', name='Alle Akzeptieren').click()
     print('Accepted cookies')
+    
+    textbox = page.get_by_role('textbox', name='Ort, Stadt, Adresse, PLZ,')
+    textbox.click()
+    print('Clicked on search bar')
+    
+    textbox.type('Dessau-Roßlau', delay=50) 
+    print('Typed in search bar')
+    
+    page.get_by_role('button', name='Suchen').click(click_count=2, delay=250)
+    print('Clicked on search button')
+    
+    page.wait_for_url(re.compile(r'https://www\.immobilienscout24\.de/Suche/.*'))
+    print('Waited for search results')
+    
+    
     
     def page_fetch(url: str):
         return page.evaluate(f"""
